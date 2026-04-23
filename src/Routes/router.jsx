@@ -27,11 +27,11 @@ export const router = createBrowserRouter([
         Component: AuthLayout,
         children: [
             {
-                path: 'login',
+                path: '/login',
                 Component: Login
             },
             {
-                path: 'register',
+                path: '/register',
                 Component: Registration
             }
         ]
