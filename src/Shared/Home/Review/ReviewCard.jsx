@@ -6,12 +6,12 @@ const ReviewCard = ({ review }) => {
     const { userName, review: reviews, user_photoURL } = review;
     return (
         <div>
-            <div className="card w-full max-w-md bg-[#F3F3F3] rounded-[28px] p-8 shadow-sm">
+            <div className="card max-w-sm bg-[#F3F3F3] rounded-xl border border-gray-200 p-8 shadow-sm">
                 <div className="text-[#C7E3E6] text-6xl font-bold leading-none mb-6">
                     "
                 </div>
 
-                <p className="text-gray-600 text-[18px] leading-9 mb-8">
+                <p className="text-gray-600 text-[18px]  mb-8">
                     {reviews}
                 </p>
 
