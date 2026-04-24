@@ -50,7 +50,7 @@ const Navbar = () => {
 
                     }
 
-                    <Link to='/login' className="btn ml-3 btn-primary ">Be A Rider </Link >
+                    <Link to='/rider' className="btn ml-3 btn-primary ">Be A Rider </Link >
                 </div>
             </div>
         </div>

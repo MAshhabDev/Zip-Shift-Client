@@ -1,13 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../Hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../../SocialLogin/SocialLogin';
 import axios from 'axios';
 
 const Registration = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUser } = useAuth();
+    const location = useLocation()
+    const navigate = useNavigate()
 
 
     const handleRegister = (data) => {
@@ -17,7 +19,6 @@ const Registration = () => {
         createUser(data.email, data.password)
             .then((result) => {
                 console.log(result.user);
-
                 // store the image in form data 
 
                 const formData = new FormData();
@@ -43,6 +44,8 @@ const Registration = () => {
                         updateUser(userProfile)
                             .then(() => {
                                 console.log("User Profile Updated ")
+                                navigate(location?.state || '/')
+
                             })
                             .catch(err => {
                                 console.log(err.message);
@@ -128,6 +131,7 @@ const Registration = () => {
                         <p className="text-sm md:text-base mt-3">
                             Already have an account?{' '}
                             <Link
+                                state={location.state}
                                 className="text-blue-500 hover:text-blue-900 font-semibold"
                                 to="/logIn"
                             >
