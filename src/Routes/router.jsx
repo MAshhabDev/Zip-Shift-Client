@@ -9,6 +9,8 @@ import PrivateRoute from "./PrivateRoute";
 import Rider from "../Page/Rider/Rider";
 import SendParcel from "../Page/Send Parcel/SendParcel";
 import DashBoardLayout from "../Layout/DashBoardLayout";
+import MyParcels from "../Page/Dashboard/MyParcels/MyParcels";
+import Payment from "../Page/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -21,7 +23,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'coverage',
-                loader: () => fetch('../../public/warehouses.json').then(res => res.json()),
+                loader: () => fetch('/warehouses.json').then(res => res.json()),
                 Component: Coverage
             },
             {
@@ -30,7 +32,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'sendParcel',
-                loader: () => fetch('../../public/warehouses.json').then(res => res.json()),
+                loader: () => fetch('/warehouses.json').then(res => res.json()),
                 element: <PrivateRoute><SendParcel></SendParcel></PrivateRoute>
             }
         ]
@@ -50,9 +52,20 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: '/dashboard',
-        element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>
+        path: 'dashboard',
+        element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>,
+        children: [
+            {
+                path: 'my-parcels',
+                Component: MyParcels
+            },
+            {
+                path: 'payment/:parcelId',
+                Component: Payment
+            }
+        ]
     }
+
 ]
 
 )
