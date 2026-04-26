@@ -5,12 +5,13 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { FiEdit } from 'react-icons/fi';
 import { FaMagnifyingGlass, FaTrashCan } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router';
+// import { Link } from 'react-router'; ❌ remove Link
 
 const MyParcels = () => {
 
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+
     const { data: parcels = [], refetch } = useQuery({
         queryKey: ['myParcels', user?.email],
         queryFn: async () => {
@@ -45,6 +46,22 @@ const MyParcels = () => {
         });
     };
 
+    // ✅ NEW: handle payment
+    const handlePayment = async (parcel) => {
+        try {
+            const res = await axiosSecure.post('/create-checkout-session', {
+                cost: parcel.cost,
+                parcelId: parcel._id,
+                parcelName: parcel.parcelName,
+                senderEmail: user.email
+            });
+
+            window.location.replace(res.data.url);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div>
             <h2>All of My Parcels: {parcels.length}</h2>
@@ -67,18 +84,26 @@ const MyParcels = () => {
                                 <th>{index + 1}</th>
                                 <td>{parcel.parcelName}</td>
                                 <td>{parcel.cost}</td>
-                                <td>{parcel.paymentStatus === 'paid' ?
-                                    <span className='text-green-500'>Paid</span> :
-                                    <Link to={`/dashboard/payment/${parcel._id}`}>
-                                        <button className='btn btn-primary btn-small'>Pay</button>
-                                    </Link>
-                                }
-                                </td>
-                                <td></td>
+
                                 <td>
-                                    <button className='btn btn-square hover:bg-primary'><FiEdit></FiEdit></button>
+                                    {
+                                        parcel.paymentStatus === 'paid'
+                                            ? <span className='text-green-500'>Paid</span>
+                                            : <button
+                                                onClick={() => handlePayment(parcel)}
+                                                className='btn btn-primary btn-small'
+                                            >
+                                                Pay
+                                            </button>
+                                    }
+                                </td>
+
+                                <td></td>
+
+                                <td>
+                                    <button className='btn btn-square hover:bg-primary'><FiEdit /></button>
                                     <button className='btn btn-square hover:bg-primary mx-2'><FaMagnifyingGlass /></button>
-                                    <button onClick={() => handleDelete(parcel._id)} className='btn btn-square hover:bg-primary'><FaTrashCan></FaTrashCan></button>
+                                    <button onClick={() => handleDelete(parcel._id)} className='btn btn-square hover:bg-primary'><FaTrashCan /></button>
                                 </td>
                             </tr>)
                         }
