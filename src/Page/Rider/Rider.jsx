@@ -3,6 +3,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
 
 const Rider = () => {
 
@@ -28,6 +29,18 @@ const Rider = () => {
     const region = useWatch({ control, name: 'region' });
 
     const handleRider = (data) => {
+        axiosSecure.post('/riders', data)
+            .then(res => {
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Parcel has been created Please Pay",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
 
     }
 
