@@ -43,7 +43,7 @@ const useAxiosSecure = () => {
         }
 
 
-    }, [user])
+    }, [user,logOut,navigate])
 
 
     return axiosSecure

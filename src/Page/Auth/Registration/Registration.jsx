@@ -4,6 +4,7 @@ import useAuth from '../../../Hooks/useAuth';
 import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../../SocialLogin/SocialLogin';
 import axios from 'axios';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const Registration = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -11,14 +12,12 @@ const Registration = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
-
+    const axiosSecure = useAxiosSecure()
     const handleRegister = (data) => {
-        console.log(data);
         const profileImg = data.photo[0];
 
         createUser(data.email, data.password)
-            .then((result) => {
-                console.log(result.user);
+            .then(() => {
                 // store the image in form data 
 
                 const formData = new FormData();
@@ -30,14 +29,28 @@ const Registration = () => {
 
                 axios.post(image_Api, formData)
                     .then(res => {
-                        console.log("After Image Uploaded", res.data)
 
+                        const photoURL = res.data.data.url
 
+                        // Create user In the Database
+
+                        const userInfo = {
+                            email: data.email,
+                            displayName: data.name,
+                            photoURL: photoURL
+
+                        }
+                        axiosSecure.post('/users', userInfo)
+                            .then((res) => {
+                                if (res.data.insertedId) {
+                                    console.log("User Created In the database")
+                                }
+                            })
                         // Update profile to firebase
 
                         const userProfile = {
                             displayName: data.name,
-                            photoURL: res.data.data.url
+                            photoURL: photoURL
 
                         }
 
