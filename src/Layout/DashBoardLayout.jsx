@@ -2,8 +2,11 @@ import React from 'react';
 import { CiDeliveryTruck } from 'react-icons/ci';
 import { FaMotorcycle, FaRegCreditCard, FaUser } from 'react-icons/fa';
 import { Link, NavLink, Outlet } from 'react-router';
+import useRole from '../Hooks/useRole';
 
 const DashBoardLayout = () => {
+
+    const { role } = useRole()
     return (
         <div className='max-w-7/11 mx-auto'>
             <div className="drawer lg:drawer-open">
@@ -50,22 +53,27 @@ const DashBoardLayout = () => {
                                     <span className="is-drawer-close:hidden">Payment History</span>
                                 </Link >
                             </li>
-                            <li>
-                                <Link to='/dashboard/user-management' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="User Management">
-                                    {/* Settings icon */}
-                                    <FaUser></FaUser>
+                            {
+                                role === 'admin' && <>
+                                    <li>
+                                        <Link to='/dashboard/user-management' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="User Management">
+                                            {/* Settings icon */}
+                                            <FaUser></FaUser>
 
-                                    <span className="is-drawer-close:hidden">User Management</span>
-                                </Link >
-                            </li>
-                            <li>
-                                <Link to='/dashboard/approve-riders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment-History">
-                                    {/* Settings icon */}
-                                    <FaMotorcycle></FaMotorcycle>
+                                            <span className="is-drawer-close:hidden">User Management</span>
+                                        </Link >
+                                    </li>
+                                    <li>
+                                        <Link to='/dashboard/approve-riders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment-History">
+                                            {/* Settings icon */}
+                                            <FaMotorcycle></FaMotorcycle>
 
-                                    <span className="is-drawer-close:hidden">Approve Riders</span>
-                                </Link >
-                            </li>
+                                            <span className="is-drawer-close:hidden">Approve Riders</span>
+                                        </Link >
+                                    </li>
+
+                                </>
+                            }
                             {/* List item */}
                             <li>
                                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">

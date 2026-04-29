@@ -9,7 +9,7 @@ const UserManagement = () => {
 
     const axiosSecure = useAxiosSecure()
 
-    const { data: users = [] } = useQuery({
+    const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users')
@@ -20,13 +20,34 @@ const UserManagement = () => {
 
     const handleMakeUser = (user) => {
         const roleInfo = { role: 'admin' }
-        axiosSecure.patch(`/users/$ { user._id }`, roleInfo)
+
+        // Must Asked Confirmation before Proceed
+        axiosSecure.patch(`/users/${user._id}`, roleInfo)
             .then(res => {
                 if (res.data.modifiedCount) {
+                    refetch()
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
                         title: `${user.displayName} marked as admin`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+
+    }
+
+    const handleRemoveUser = (user) => {
+        const roleInfo = { role: 'user' }
+        axiosSecure.patch(`/users/${user._id}`, roleInfo)
+            .then(res => {
+                if (res.data.modifiedCount) {
+                    refetch()
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.displayName} marked as user`,
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -59,7 +80,7 @@ const UserManagement = () => {
                                     <td>{user.displayName}</td>
                                     <td>{user.email}</td>
                                     <td>{user.role}</td>
-                                    <td>{user.role === 'admin' ? <button className='btn'><FiShieldOff></FiShieldOff></button > : <button onClick={() => handleMakeUser(user)} className='btn' > <FaUserShield></FaUserShield></button>}</td>
+                                    <td>{user.role === 'admin' ? <button onClick={() => handleRemoveUser(user)} className='btn'><FiShieldOff></FiShieldOff></button > : <button onClick={() => handleMakeUser(user)} className='btn' > <FaUserShield></FaUserShield></button>}</td>
                                 </tr>)
                             }
                         </tbody>
