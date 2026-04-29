@@ -21,23 +21,31 @@ const ApproveRiders = () => {
 
     })
 
-
-    const handleApprove = id => {
-
-        const updateInfo = { status: 'approved' }
-        axiosSecure.patch(`/riders/${id}`, updateInfo)
+    const updateRiderStatus = (rider, status) => {
+        const updateInfo = { status: status, email: rider.senderEmail }
+        axiosSecure.patch(`/riders/${rider._id}`, updateInfo)
             .then(res => {
                 if (res.data.modifiedCount) {
                     refetch()
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Riders ApprovedX ",
+                        title: `Riders status is set to been ${status}`,
                         showConfirmButton: false,
                         timer: 1500
                     });
                 }
             })
+    }
+
+
+    const handleApprove = rider => {
+
+        updateRiderStatus(rider, "approved")
+    }
+
+    const handleReject = rider => {
+        updateRiderStatus(rider, "rejected")
     }
 
 
@@ -71,10 +79,10 @@ const ApproveRiders = () => {
                                             <p className={`${rider.status === 'approved' ? 'text-green-800' : 'text-red-500'}`}>{rider.status}</p>
                                         </td>
                                         <td>
-                                            <button onClick={() => handleApprove(rider._id)} className='btn'>
+                                            <button onClick={() => handleApprove(rider)} className='btn'>
                                                 <FaUserCheck></FaUserCheck>
                                             </button>
-                                            <button className='btn'>
+                                            <button onClick={() => handleReject(rider)} className='btn'>
                                                 <IoPersonRemoveSharp></IoPersonRemoveSharp>
                                             </button>
                                             <button className='btn'>
