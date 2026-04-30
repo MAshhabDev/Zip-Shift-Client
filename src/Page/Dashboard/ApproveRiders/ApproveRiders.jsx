@@ -23,19 +23,35 @@ const ApproveRiders = () => {
 
     const updateRiderStatus = (rider, status) => {
         const updateInfo = { status: status, email: rider.senderEmail }
+
+        console.log("rider:", rider);
+        console.log("updateInfo:", updateInfo);
+
         axiosSecure.patch(`/riders/${rider._id}`, updateInfo)
             .then(res => {
+                console.log("patch response:", res.data);
+
                 if (res.data.modifiedCount) {
                     refetch()
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `Riders status is set to been ${status}`,
+                        title: `Rider status has been set to ${status}`,
                         showConfirmButton: false,
                         timer: 1500
                     });
                 }
             })
+            .catch(error => {
+                console.log("patch error:", error);
+                console.log("server response:", error.response?.data);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed to update rider",
+                    text: error.response?.data?.error || error.response?.data?.message || "Server error"
+                });
+            });
     }
 
 
@@ -63,7 +79,8 @@ const ApproveRiders = () => {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>District</th>
-                                <th>Status</th>
+                                <th>Application Status</th>
+                                <th>Work Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -78,6 +95,8 @@ const ApproveRiders = () => {
                                         <td>
                                             <p className={`${rider.status === 'approved' ? 'text-green-800' : 'text-red-500'}`}>{rider.status}</p>
                                         </td>
+                                        <td>{rider.workStatus}</td>
+
                                         <td>
                                             <button onClick={() => handleApprove(rider)} className='btn'>
                                                 <FaUserCheck></FaUserCheck>
