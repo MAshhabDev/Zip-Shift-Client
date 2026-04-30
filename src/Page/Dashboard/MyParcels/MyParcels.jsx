@@ -98,7 +98,9 @@ const MyParcels = () => {
                                     }
                                 </td>
 
-                                <td></td>
+                                <td>
+                                    {parcel.deliveryStatus}
+                                </td>
 
                                 <td>
                                     <button className='btn btn-square hover:bg-primary'><FiEdit /></button>
