@@ -20,6 +20,7 @@ import AdminRoute from "./AdminRoute";
 import AssignRiders from "../Page/Dashboard/Assign Riders/AssignRiders";
 import AssignDeliveries from "../Page/Dashboard/AssigneDeliveries/AssignDeliveries";
 import RiderRoute from "./RiderRoute";
+import CompletedDeliveries from "../Page/Dashboard/CompletedDeliveries/CompletedDeliveries";
 
 export const router = createBrowserRouter([
     {
@@ -86,19 +87,24 @@ export const router = createBrowserRouter([
                 path: 'payment-cancelled',
                 Component: PaymentCancel
             },
-            {
-                path: 'approve-riders',
-                // Component: ApproveRiders,
-                element: <AdminRoute><ApproveRiders></ApproveRiders></AdminRoute>
-            },
+
 
             // Rider Only Routes
             {
                 path: 'assigned-deliveries',
                 element: <RiderRoute><AssignDeliveries></AssignDeliveries></RiderRoute>
             },
+            {
+                path: 'completed-deliveries',
+                element: <RiderRoute><CompletedDeliveries></CompletedDeliveries></RiderRoute>
+            },
 
             // Admin Only Routes
+            {
+                path: 'approve-riders',
+                // Component: ApproveRiders,
+                element: <AdminRoute><ApproveRiders></ApproveRiders></AdminRoute>
+            },
             {
                 path: 'user-management',
                 element: <AdminRoute><UserManagement></UserManagement></AdminRoute>
