@@ -1,6 +1,6 @@
 import React from 'react';
 import { CiDeliveryTruck } from 'react-icons/ci';
-import { FaMotorcycle, FaRegCreditCard, FaUser } from 'react-icons/fa';
+import { FaMotorcycle, FaRegCreditCard, FaTasks, FaUser } from 'react-icons/fa';
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../Hooks/useRole';
 import { RiEBikeFill } from 'react-icons/ri';
@@ -54,6 +54,20 @@ const DashBoardLayout = () => {
                                     <span className="is-drawer-close:hidden">Payment History</span>
                                 </Link >
                             </li>
+                            {
+                                role === 'rider' && <>
+                                    <li>
+                                        <Link to='/dashboard/assigned-deliveries' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="User Management">
+                                            {/* Settings icon */}
+                                            <FaTasks></FaTasks>
+
+                                            <span className="is-drawer-close:hidden">Assign Deliveries</span>
+                                        </Link >
+                                    </li>
+                                </>
+                            }
+
+                            {/* Admin Only Links */}
                             {
                                 role === 'admin' && <>
                                     <li>

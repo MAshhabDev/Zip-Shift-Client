@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const AssignRiders = () => {
 
-    const [selectedParcel, setSelectedParcel] = useState(null)
+    const [selectedParcel, setSelectedParcel, refetch] = useState(null)
     const riderModalRef = useRef()
     const axiosSecure = useAxiosSecure()
     const { data: parcels = [] } = useQuery({
@@ -16,7 +16,7 @@ const AssignRiders = () => {
         }
     })
 
-    const { data: riders = [], isLoading, refetch } = useQuery({
+    const { data: riders = [], isLoading } = useQuery({
         queryKey: ['riders', selectedParcel?.senderDistrict, 'available'],
         enabled: !!selectedParcel?.senderDistrict,
         queryFn: async () => {
@@ -46,7 +46,7 @@ const AssignRiders = () => {
 
         axiosSecure.patch(`/parcels/${selectedParcel._id}`, updateInfo)
             .then(res => {
-                if (res.data.modifiedCOunt) {
+                if (res.data.modifiedCount) {
                     riderModalRef.current.close()
                     refetch()
                     Swal.fire({
