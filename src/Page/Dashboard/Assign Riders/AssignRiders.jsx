@@ -40,7 +40,8 @@ const AssignRiders = () => {
             riderId: rider._id,
             riderEmail: rider.senderEmail,
             riderName: rider.name,
-            parcelId: selectedParcel._id
+            parcelId: selectedParcel._id,
+            trackingId: selectedParcel.trackingId
 
         }
 

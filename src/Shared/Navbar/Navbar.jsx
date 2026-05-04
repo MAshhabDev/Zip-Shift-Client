@@ -54,11 +54,16 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
+                    {
+                        user ? <span>{user.displayName}</span> : <span></span>
+                    }
 
                     {
-                        user ? <a onClick={handleLogOut} className="btn btn-primary">Log Out</a > : <Link to='/login' className="btn btn-primary">Log In</Link >
+                        user ? <a onClick={handleLogOut} className="btn ml-2 btn-primary">Log Out</a > : <Link to='/login' className="btn btn-primary">Log In</Link >
 
                     }
+
+
 
                     <Link to='/rider' className="btn ml-3 btn-primary ">Be A Rider </Link >
                 </div>
