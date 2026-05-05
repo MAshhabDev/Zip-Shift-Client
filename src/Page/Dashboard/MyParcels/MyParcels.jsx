@@ -54,7 +54,8 @@ const MyParcels = () => {
                 cost: parcel.cost,
                 parcelId: parcel._id,
                 parcelName: parcel.parcelName,
-                senderEmail: user.email
+                senderEmail: user.email,
+                trackingId:parcel.trackingId 
             });
 
             window.location.replace(res.data.url);
