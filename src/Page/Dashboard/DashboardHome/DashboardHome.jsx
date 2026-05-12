@@ -12,7 +12,7 @@ const DashboardHome = () => {
     }
 
     if (role === 'admin') {
-        return <>AdminHome</>
+        return <AdminHome></AdminHome>
     }
     else if (role === 'rider') {
         return <RideHome />
